@@ -1,0 +1,41 @@
+# Python virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables (CRITICAL)
+.env
+
+# MacOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# Data folders (IMPORTANT for RAG)
+data/raw/
+data/cleaned/
+data/chunks/
+data/vectorstore/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Jupyter (if you use later)
+.ipynb_checkpoints/
+
+# Testing / coverage
+.coverage
+htmlcov/
+
+# OS
+Thumbs.db
