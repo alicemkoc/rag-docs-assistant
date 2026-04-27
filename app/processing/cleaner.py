@@ -15,20 +15,36 @@ def load_html(file_path: Path) -> str:
     return file_path.read_text(encoding="utf-8")
 
 
+def remove_text_before_main_content(text: str) -> str:
+    markers = [
+        "LangChain is an open source framework",
+        "LangChain is the easy way",
+    ]
+
+    for marker in markers:
+        index = text.find(marker)
+        if index != -1:
+            return text[index:]
+
+    return text
+
+
 def extract_text_from_html(html: str) -> str:
     soup = BeautifulSoup(html, "html.parser")
 
-    # Removes unnecessary tags
     for tag in soup(["script", "style", "noscript"]):
         tag.decompose()
 
-    text = soup.get_text(separator="\n")
+    main_content = soup.find("main") or soup.find("article") or soup.body or soup
+    text = main_content.get_text(separator="\n")
 
-    # Whitespace Cleanning
     lines = [line.strip() for line in text.splitlines()]
     non_empty_lines = [line for line in lines if line]
 
-    return "\n".join(non_empty_lines)
+    cleaned_text = "\n".join(non_empty_lines)
+    cleaned_text = remove_text_before_main_content(cleaned_text)
+
+    return cleaned_text
 
 
 def build_output_path(input_path: Path) -> Path:
